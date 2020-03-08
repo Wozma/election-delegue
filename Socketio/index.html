@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Élection délégués</title>
+</head>
+<body>
+    <form action="">
+        <label for="Luc">Luc</label>
+        <input type="radio" name="vote" value="Luc" id="Luc">
+        <label for="Alexis">Alexis</label>
+        <input type="radio" name="vote" value="Alexis" id="Alexis">
+        <label for="Yann">Yann</label>
+        <input type="radio" name="vote" value="Yann" id="Yann">
+        <label for="Jérémy">M</label>
+        <input type="radio" name="vote" value="Jérémy" id="Jérémy">
+    </form>
+    <br>
+
+    <div id="LucVote"></div>
+    <div id="AlexisVote"></div>
+    <div id="YannVote"></div>
+    <div id="JérémyVote"></div>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        var socket = io();
+            $("input[type=radio][name=vote]").click(function () {
+                console.log($(this).val())
+                socket.emit('vote', $(this).val());
+                $(`label`).css("opacity", ".2")
+                $("input").attr("disabled", "true")
+                $(`label[for=${this.value}]`).css("opacity", "1")
+            })
+
+            socket.on("oui", function(LucVote){
+                document.getElementById("LucVote").innerHTML = LucVote;
+            })
+            socket.on("oui1", function(AlexisVote){
+                document.getElementById("AlexisVote").innerHTML = AlexisVote;
+            })
+            socket.on("oui2", function(YannVote){
+                document.getElementById("YannVote").innerHTML = YannVote;
+            })
+            socket.on("oui3", function(JérémyVote){
+                document.getElementById("JérémyVote").innerHTML = JérémyVote;
+            })
+    </script>
+</body>
+</body>
+</html>
